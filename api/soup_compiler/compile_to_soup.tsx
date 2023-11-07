@@ -14,16 +14,6 @@ export default async (req: Request) => {
   const { typescript_filesystem, target_export, target_filepath } =
     jsonBody.parse(await req.json())
 
-  // Adding leading slashes
-  // for (const key in typescript_filesystem) {
-  //   if (!key.startsWith("/")) {
-  //     typescript_filesystem["/" + key] = typescript_filesystem[key]
-  //     delete typescript_filesystem[key]
-  //   }
-  // }
-
-  // const availablePort = 4000 + Math.floor(Math.random() * 1000)
-
   // Add a file that does the thing
   typescript_filesystem["__ENTRYPOINT__.tsx"] = `
 
@@ -39,7 +29,7 @@ const elements = await createRoot().render(
   projectBuilder
 )
 
-console.log(elements)
+console.log(JSON.stringify(elements))
 
 
 
@@ -67,12 +57,21 @@ console.log(elements)
     root: testDir,
     entrypoints: [path.join(testDir, "__ENTRYPOINT__.tsx")],
     outdir: path.join(testDir, "__OUTPUT__"),
-    splitting: false,
-    format: "esm",
-    target: "browser",
+    target: "bun",
   })
 
-  const evalResult = eval(fs.readFileSync(out.outputs[0].path, "utf-8"))
+  const outFilePath = out.outputs[0].path
 
-  return new Response(JSON.stringify({}), { status: 200 })
+  const outFileRunStdout = Bun.spawnSync({
+    cmd: ["bun", outFilePath],
+  }).stdout.toString()
+
+  const tscircuit_soup = JSON.parse(outFileRunStdout)
+
+  return new Response(
+    JSON.stringify({
+      tscircuit_soup,
+    }),
+    { status: 200 }
+  )
 }
