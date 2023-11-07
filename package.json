@@ -12,6 +12,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@tscircuit/builder": "^1.5.4",
+    "@tscircuit/react-fiber": "^1.0.6",
     "make-vfs": "^1.0.8",
     "react": "^18.2.0",
     "redaxios": "^0.5.1",

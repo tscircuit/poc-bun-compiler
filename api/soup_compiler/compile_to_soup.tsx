@@ -27,10 +27,19 @@ export default async (req: Request) => {
   // Add a file that does the thing
   typescript_filesystem["__ENTRYPOINT__.tsx"] = `
 
+import { createRoot } from "@tscircuit/react-fiber"
+import { createProjectBuilder } from "@tscircuit/builder"
+
 // TODO dynamic import so we can check for error more easily
 import { ${target_export} } from "./${target_filepath}"
 
-console.log("we did it!", ${target_export})
+const projectBuilder = createProjectBuilder()
+const elements = await createRoot().render(
+  <${target_export} />,
+  projectBuilder
+)
+
+console.log(elements)
 
 
 
@@ -58,33 +67,12 @@ console.log("we did it!", ${target_export})
     root: testDir,
     entrypoints: [path.join(testDir, "__ENTRYPOINT__.tsx")],
     outdir: path.join(testDir, "__OUTPUT__"),
+    splitting: false,
+    format: "esm",
+    target: "browser",
   })
 
   const evalResult = eval(fs.readFileSync(out.outputs[0].path, "utf-8"))
-
-  // const transpiler = new Bun.Transpiler()
-  // console.log("running transpiler...")
-  // console.log(transpiler.transformSync(typescript_filesystem[target_filepath]))
-  // console.log(testDir)
-  // const importedFile = await import(`./${testDir}/${target_filepath}`)
-
-  // const fsServer = Bun.serve({
-  //   port: availablePort,
-  //   fetch(req: Request) {
-  //     const url = new URL(req.url)
-  //     return new Response(typescript_filesystem[url.pathname], {
-  //       status: 200,
-  //     })
-  //   },
-  // })
-  // const fsUrl = `http://localhost:${availablePort}`
-  // console.log(fsUrl)
-
-  // const importedFile = await import(
-  //   `${fsUrl}/${target_filepath.replace(/^\//, "")}`
-  // )
-
-  // console.log(importedFile)
 
   return new Response(JSON.stringify({}), { status: 200 })
 }
