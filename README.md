@@ -1,4 +1,6 @@
-# poc-bun-compiler
+# tscircuit poc-bun-compiler
+
+
 
 To install dependencies:
 
@@ -11,3 +13,4 @@ To run:
 ```bash
 bun run index.ts
 ```
+

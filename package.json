@@ -2,10 +2,17 @@
   "name": "poc-bun-compiler",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "generate-vfs": "make-vfs ./api --content-format=import-default --outfile=api-vfs.ts"
+  },
   "devDependencies": {
     "bun-types": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "make-vfs": "^1.0.8",
+    "zod": "^3.22.4"
   }
 }
