@@ -38,7 +38,6 @@ console.log(JSON.stringify(elements))
     "./unsafe-usercode",
     `dump_${Math.random().toString(32).slice(2)}`
   )
-  console.log(testDir)
 
   fs.mkdirSync(testDir, {
     recursive: true,
