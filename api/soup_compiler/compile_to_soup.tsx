@@ -25,25 +25,27 @@ export default async (req: Request) => {
   // const availablePort = 4000 + Math.floor(Math.random() * 1000)
 
   // create a temporary directory representing the filesystem
-  const testDir = path.join(
-    "./unsafe-usercode",
-    `dump_${Math.random().toString(32).slice(2)}`
-  )
+  // const testDir = path.join(
+  //   "./unsafe-usercode",
+  //   `dump_${Math.random().toString(32).slice(2)}`
+  // )
 
-  fs.mkdirSync(testDir, {
-    recursive: true,
-  })
+  // fs.mkdirSync(testDir, {
+  //   recursive: true,
+  // })
 
-  // create the files from the filesystem config
-  for (const [filepath, contents] of Object.entries(typescript_filesystem)) {
-    const fullPath = path.join(testDir, filepath)
-    fs.mkdirSync(path.dirname(fullPath), { recursive: true })
-    fs.writeFileSync(fullPath, contents)
-  }
+  // // create the files from the filesystem config
+  // for (const [filepath, contents] of Object.entries(typescript_filesystem)) {
+  //   const fullPath = path.join(testDir, filepath)
+  //   fs.mkdirSync(path.dirname(fullPath), { recursive: true })
+  //   fs.writeFileSync(fullPath, contents)
+  // }
 
   const transpiler = new Bun.Transpiler()
-  console.log(testDir)
-  const importedFile = await import(`./${testDir}/${target_filepath}`)
+  console.log("running transpiler...")
+  console.log(transpiler.transformSync(typescript_filesystem[target_filepath]))
+  // console.log(testDir)
+  // const importedFile = await import(`./${testDir}/${target_filepath}`)
 
   // const fsServer = Bun.serve({
   //   port: availablePort,
@@ -61,7 +63,7 @@ export default async (req: Request) => {
   //   `${fsUrl}/${target_filepath.replace(/^\//, "")}`
   // )
 
-  console.log(importedFile)
+  // console.log(importedFile)
 
   return new Response(JSON.stringify({}), { status: 200 })
 }
