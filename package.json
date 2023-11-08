@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "generate-vfs": "make-vfs ./api --content-format=import-default --outfile=api-vfs.ts"
+    "build:vfs": "make-vfs ./api --content-format=import-default --outfile=api-vfs.ts",
+    "build:cli": "bun build ./server.ts --compile --outfile ./bin/tsci-compiler"
   },
   "devDependencies": {
     "bun-types": "latest"
