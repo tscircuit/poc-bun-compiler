@@ -1,3 +1,4 @@
 import { startServer } from "."
 
-startServer()
+console.log(`[tsci-compiler] Starting on http://localhost:3000`)
+startServer({ port: 3000 })
