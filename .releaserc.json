@@ -3,6 +3,18 @@
   "repositoryUrl": "https://github.com/tscircuit/compiler",
   "plugins": [
     "@semantic-release/commit-analyzer",
+    [
+      "@semantic-release/npm",
+      {
+        "publish": false
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [{ "path": "bin/tsci-compiler", "label": "tsci binary" }]
+      }
+    ],
     "@semantic-release/git"
   ]
 }
