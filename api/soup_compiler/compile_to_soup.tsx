@@ -1,6 +1,7 @@
 import { z } from "zod"
 import fs from "fs"
 import path from "path"
+import { rimrafSync } from "rimraf"
 
 const jsonBody = z.object({
   typescript_filesystem: z.record(z.string()),
@@ -64,6 +65,8 @@ console.log(JSON.stringify(elements))
   }).stdout.toString()
 
   const tscircuit_soup = JSON.parse(outFileRunStdout)
+
+  rimrafSync(testDir)
 
   return new Response(
     JSON.stringify({
