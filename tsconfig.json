@@ -21,6 +21,7 @@
     ],
   },
   "include": [
+    "package.json",
     "index.ts",
     "server.ts",
     "api-vfs.ts",
