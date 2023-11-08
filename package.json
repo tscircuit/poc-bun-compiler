@@ -25,5 +25,6 @@
     "rimraf": "^5.0.5",
     "semantic-release": "^22.0.7",
     "zod": "^3.22.4"
-  }
+  },
+  "version": "1.0.2"
 }
