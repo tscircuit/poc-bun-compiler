@@ -22,11 +22,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run semantic release
-        run: bun run semantic-release
-
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This token is provided by Actions
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}  # If you're publishing to npm, you need to set this in your repo secrets
-        run: npx semantic-release
+        run: bun run semantic-release
