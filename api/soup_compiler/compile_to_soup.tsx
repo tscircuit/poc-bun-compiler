@@ -53,6 +53,14 @@ console.log(JSON.stringify(elements))
     fs.writeFileSync(fullPath, contents)
   }
 
+  // Install deps
+  Bun.spawnSync({ cmd: ["bun", "init"], cwd: testDir })
+  Bun.spawnSync({
+    cmd: ["bun", "add", "@tscircuit/react-fiber", "@tscircuit/builder"],
+    cwd: testDir,
+  })
+  Bun.spawnSync({ cmd: ["bun", "install"], cwd: testDir })
+
   const out = await Bun.build({
     root: testDir,
     entrypoints: [`${testDir}/__ENTRYPOINT__.tsx`],
