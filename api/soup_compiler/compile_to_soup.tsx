@@ -34,12 +34,14 @@ console.log(JSON.stringify(elements))
 
   `.trim()
 
+  const unsafeUsercodeDir =
+    process.env.TSCI_COMPILER_UNSAFE_USERCODE_DIR ?? "./unsafe-usercode"
+
   // create a temporary directory representing the filesystem
   const testDir = path.join(
-    "./unsafe-usercode",
+    unsafeUsercodeDir,
     `dump_${Math.random().toString(32).slice(2)}`
   )
-
   fs.mkdirSync(testDir, {
     recursive: true,
   })
@@ -53,11 +55,27 @@ console.log(JSON.stringify(elements))
 
   const out = await Bun.build({
     root: testDir,
-    entrypoints: [path.join(testDir, "__ENTRYPOINT__.tsx")],
-    outdir: path.join(testDir, "__OUTPUT__"),
+    entrypoints: [`${testDir}/__ENTRYPOINT__.tsx`],
+    outdir: `${testDir}/__OUTPUT__`,
     target: "bun",
   })
 
+  if (!out.success) {
+    rimrafSync(testDir)
+    console.log(
+      "build logs [" + out.logs.length + "]",
+      JSON.stringify(out.logs)
+    )
+    return new Response(
+      JSON.stringify({
+        error: {
+          error_type: "build_errors",
+          build_logs: JSON.parse(JSON.stringify(out.logs)),
+        },
+      }),
+      { status: 500 }
+    )
+  }
   const outFilePath = out.outputs[0].path
 
   const outFileRunStdout = Bun.spawnSync({

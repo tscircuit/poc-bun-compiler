@@ -9,6 +9,10 @@ if (args.version) {
   process.exit(0)
 }
 
+if (args["usercode-dir"]) {
+  process.env.TSCI_COMPILER_UNSAFE_USERCODE_DIR = args["usercode-dir"]
+}
+
 const port = args.port ? parseInt(args.port) : 3000
 
 console.log(`[tsci-compiler] Starting on http://localhost:${port}`)

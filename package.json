@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build:vfs": "make-vfs ./api --content-format=import-default --outfile=api-vfs.ts",
-    "build:cli": "bun build ./server.ts --compile --outfile ./bin/tsci-compiler"
+    "build:cli": "bun build ./cli.ts --compile --outfile ./bin/tsci-compiler"
   },
   "devDependencies": {
     "bun-types": "latest"

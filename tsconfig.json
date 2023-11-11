@@ -23,7 +23,7 @@
   "include": [
     "package.json",
     "index.ts",
-    "server.ts",
+    "cli.ts",
     "api-vfs.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
