@@ -2,6 +2,7 @@ import { z } from "zod"
 import fs from "fs"
 import path from "path"
 import { rimrafSync } from "rimraf"
+import {} from "bun"
 
 const jsonBody = z.object({
   typescript_filesystem: z.record(z.string()),
@@ -36,6 +37,8 @@ console.log(JSON.stringify(elements))
 
   const unsafeUsercodeDir =
     process.env.TSCI_COMPILER_UNSAFE_USERCODE_DIR ?? "./unsafe-usercode"
+  const bunBin =
+    process.env.TSCI_COMPILER_BUN_PATH ?? require.resolve(".bin/bun")
 
   // create a temporary directory representing the filesystem
   const testDir = path.join(
@@ -54,12 +57,12 @@ console.log(JSON.stringify(elements))
   }
 
   // Install deps
-  Bun.spawnSync({ cmd: ["bun", "init"], cwd: testDir })
+  Bun.spawnSync({ cmd: [bunBin, "init"], cwd: testDir })
   Bun.spawnSync({
-    cmd: ["bun", "add", "@tscircuit/react-fiber", "@tscircuit/builder"],
+    cmd: [bunBin, "add", "@tscircuit/react-fiber", "@tscircuit/builder"],
     cwd: testDir,
   })
-  Bun.spawnSync({ cmd: ["bun", "install"], cwd: testDir })
+  Bun.spawnSync({ cmd: [bunBin, "install"], cwd: testDir })
 
   const out = await Bun.build({
     root: testDir,
@@ -87,7 +90,7 @@ console.log(JSON.stringify(elements))
   const outFilePath = out.outputs[0].path
 
   const outFileRunStdout = Bun.spawnSync({
-    cmd: ["bun", outFilePath],
+    cmd: [bunBin, outFilePath],
   }).stdout.toString()
 
   const tscircuit_soup = JSON.parse(outFileRunStdout)
