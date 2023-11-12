@@ -16,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
+    "baseUrl": ".",
     "types": [
       "bun-types" // add Bun global
     ],
@@ -29,5 +30,6 @@
     "tests/**/*.tsx",
     "api/**/*.ts",
     "api/**/*.tsx",
+    "lib/**/*.ts"
   ]
 }

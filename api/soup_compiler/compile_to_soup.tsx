@@ -3,6 +3,7 @@ import fs from "fs"
 import path from "path"
 import { rimrafSync } from "rimraf"
 import { file } from "bun"
+import { withErrorHandling } from "lib/middlewares/with-error-handling"
 /* @ts-ignore */
 import bunExe from "../../bun.executable"
 
@@ -12,7 +13,7 @@ const jsonBody = z.object({
   target_export: z.string(),
 })
 
-export default async (req: Request) => {
+export default withErrorHandling(async (req: Request) => {
   const { typescript_filesystem, target_export, target_filepath } =
     jsonBody.parse(await req.json())
 
@@ -128,4 +129,4 @@ console.log(JSON.stringify(elements))
     }),
     { status: 200 }
   )
-}
+})
