@@ -1,8 +1,21 @@
 import { startServer } from "."
 import minimist from "minimist"
 import packageJson from "./package.json"
+// import { file } from "bun"
+// import bunExe from "./bun.executable"
 
 const args = minimist(Bun.argv)
+
+if (args.bun) {
+  // console.log(await file(bunExe).exists())
+  // // console.log(await file(".bin/bun").exists())
+  // await Bun.write(file("./unsafe-usercode/bun"), file(bunExe))
+  // /* @ts-ignore */
+  // // const bunPath = file((await import("bun/bin/bun")).default)
+  // // console.log(await bunPath.text())
+  // // // Bun.spawnSync({ cmd: [bunPath] })
+  // process.exit(0)
+}
 
 if (args.version) {
   console.log(`tsci-compiler v${packageJson.version}`)

@@ -178,3 +178,5 @@ dist
 unsafe-usercode
 bin
 tsci-compiler
+bun
+bun.executable

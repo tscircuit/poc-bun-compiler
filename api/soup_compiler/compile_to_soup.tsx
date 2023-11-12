@@ -2,6 +2,9 @@ import { z } from "zod"
 import fs from "fs"
 import path from "path"
 import { rimrafSync } from "rimraf"
+import { file } from "bun"
+/* @ts-ignore */
+import bunExe from "../../bun.executable"
 
 const jsonBody = z.object({
   typescript_filesystem: z.record(z.string()),
@@ -36,12 +39,21 @@ console.log(JSON.stringify(elements))
 
   const unsafeUsercodeDir =
     process.env.TSCI_COMPILER_UNSAFE_USERCODE_DIR ?? "./unsafe-usercode"
+
+  fs.mkdirSync(unsafeUsercodeDir, {
+    recursive: true,
+  })
+
   let bunBin = process.env.TSCI_COMPILER_BUN_PATH
+
   if (!bunBin) {
-    try {
-      bunBin = require.resolve("bun/bin/bun")
-    } catch (e) {
-      bunBin = "bun"
+    bunBin = path.resolve(unsafeUsercodeDir, "bun")
+    // Setup bun in this unsafe usercode directory
+    if (!fs.existsSync(bunBin)) {
+      await Bun.write(file(bunBin), file(bunExe), {
+        mode: 0o755,
+      })
+      fs.chmodSync(bunBin, 0o755)
     }
   }
   console.log(`Using bun at path: ${bunBin}`)
@@ -94,13 +106,13 @@ console.log(JSON.stringify(elements))
     )
   }
 
-  console.log(out)
-
   const outFilePath = out.outputs[0].path
 
   const outFileRunStdout = Bun.spawnSync({
-    cmd: [bunBin, outFilePath],
+    cmd: ["bun", outFilePath],
   }).stdout.toString()
+
+  console.log("stdout: ", outFileRunStdout)
 
   const tscircuit_soup = JSON.parse(outFileRunStdout)
 

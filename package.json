@@ -6,9 +6,11 @@
   "scripts": {
     "start": "bun run ./cli.ts",
     "build:vfs": "make-vfs ./api --content-format=import-default --outfile=api-vfs.ts",
-    "build:cli": "bun build ./cli.ts --compile --outfile tsci-compiler"
+    "build:cli": "bun build ./cli.ts --compile --outfile tsci-compiler",
+    "build:cli:copy-bun": "cp node_modules/@oven/bun-linux-x64/bin/bun ./bun.executable"
   },
   "devDependencies": {
+    "@oven/bun-linux-x64": "^1.0.11",
     "bun-types": "latest"
   },
   "peerDependencies": {
