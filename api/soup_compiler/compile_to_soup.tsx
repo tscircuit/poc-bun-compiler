@@ -40,6 +40,8 @@ console.log(JSON.stringify(elements))
   const unsafeUsercodeDir =
     process.env.TSCI_COMPILER_UNSAFE_USERCODE_DIR ?? "./unsafe-usercode"
 
+  console.log(`Using unsafe usercode dir: ${unsafeUsercodeDir}`)
+
   fs.mkdirSync(unsafeUsercodeDir, {
     recursive: true,
   })
@@ -50,9 +52,11 @@ console.log(JSON.stringify(elements))
     bunBin = path.resolve(unsafeUsercodeDir, "bun")
     // Setup bun in this unsafe usercode directory
     if (!fs.existsSync(bunBin)) {
+      console.log(`Writing bun to path: ${bunBin}`)
       await Bun.write(file(bunBin), file(bunExe), {
         mode: 0o755,
       })
+      console.log(`Chmoding bun bin file...`)
       fs.chmodSync(bunBin, 0o755)
     }
   }
