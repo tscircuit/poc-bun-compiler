@@ -6,7 +6,7 @@
   "scripts": {
     "start": "bun run ./cli.ts",
     "build:vfs": "make-vfs ./api --content-format=import-default --outfile=api-vfs.ts",
-    "build:cli": "bun build ./cli.ts --compile --outfile ./bin/tsci-compiler"
+    "build:cli": "bun build ./cli.ts --compile --outfile tsci-compiler"
   },
   "devDependencies": {
     "bun-types": "latest"

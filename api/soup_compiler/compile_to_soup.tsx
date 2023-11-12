@@ -87,6 +87,9 @@ console.log(JSON.stringify(elements))
       { status: 500 }
     )
   }
+
+  console.log(out)
+
   const outFilePath = out.outputs[0].path
 
   const outFileRunStdout = Bun.spawnSync({
