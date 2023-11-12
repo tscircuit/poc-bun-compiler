@@ -36,7 +36,15 @@ console.log(JSON.stringify(elements))
 
   const unsafeUsercodeDir =
     process.env.TSCI_COMPILER_UNSAFE_USERCODE_DIR ?? "./unsafe-usercode"
-  const bunBin = process.env.TSCI_COMPILER_BUN_PATH ?? "bun"
+  let bunBin = process.env.TSCI_COMPILER_BUN_PATH
+  if (!bunBin) {
+    try {
+      bunBin = require.resolve("bun/bin/bun")
+    } catch (e) {
+      bunBin = "bun"
+    }
+  }
+  console.log(`Using bun at path: ${bunBin}`)
 
   // create a temporary directory representing the filesystem
   const testDir = path.join(
